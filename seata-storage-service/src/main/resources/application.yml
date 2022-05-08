@@ -1,0 +1,55 @@
+
+server:
+  port: 8082
+
+spring:
+  application:
+    name: seata-storage-service
+  cloud:
+    alibaba:
+    #      seata:
+    #        tx-service-group: my_test_tx_group
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+        username: nacos
+        password: nacos
+        group: SEATA_GROUP
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/seata_storage?useUnicode=true&characterEncoding=utf-8&useSSL=NO&serverTimezone=Asia/Shanghai
+    username: root
+    password: root
+
+logging:
+  level:
+    io:
+      seata: info
+
+mybatis:
+  mapperLocations: classpath:mapper/*.xml
+
+seata:
+  tx-service-group: my_test_tx_group		#????????nacos?????????
+  registry:
+    type: nacos
+    nacos:
+      server-addr: ${spring.cloud.nacos.discovery.server-addr}
+      username: ${spring.cloud.nacos.discovery.username}
+      password: ${spring.cloud.nacos.discovery.password}
+      group: ${spring.cloud.nacos.discovery.group}
+      #namespace: c9829d3b-5e7c-4d41-b0f1-00c4240c9c21
+  config:
+    type: nacos
+    nacos:
+      server-addr: ${spring.cloud.nacos.discovery.server-addr}
+      username: ${spring.cloud.nacos.discovery.username}
+      password: ${spring.cloud.nacos.discovery.password}
+      group: ${spring.cloud.nacos.discovery.group}
+      namespace: 98da5e8a-499e-4bc7-a744-92b1d193e96a   #2.2?????????ID????? ??public??
+  service:
+    vgroup-mapping:
+      my_test_tx_group: default		# ????????nacos?????????
+
+
+
